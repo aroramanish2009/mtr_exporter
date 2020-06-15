@@ -186,6 +186,10 @@ func (e *Exporter) collect() error {
 		}()
 
 		for tf := range results {
+			if len(tf.Hosts) < 1 {
+				log.Infoln("no hosts reporting")
+				continue
+			}
 			route := make([]net.IP, len(tf.Hosts))
 			destination := tf.Hosts[len(tf.Hosts)-1].IP
 			for i, host := range tf.Hosts {
